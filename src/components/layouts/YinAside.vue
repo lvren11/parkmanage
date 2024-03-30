@@ -41,9 +41,15 @@ import { ref } from "vue";
 import { PieChart, Mic, Document, User } from "@element-plus/icons-vue";
 import emitter from "@/utils/emitter";
 import { useStore } from 'vuex'; // 导入 mapState
-
+import mixin from "@/mixins/mixin";
+import { RouterName } from "@/enums";
 const collapse = ref(false);
 const store = useStore(); // 获取 store
+const { routerManager } = mixin();
+if(Object.keys(store.state.user).length === 0) {
+  // 对象为空
+  routerManager(RouterName.SignIn, { path: RouterName.SignIn });
+}
 const roles =  store.state.user.roles;
 emitter.on("collapse", (msg) => {
   collapse.value = msg as boolean;

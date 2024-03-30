@@ -55,7 +55,7 @@
   
         if (result.code === 200) {
             proxy.$store.commit("setUser", result.data);
-            routerManager(RouterName.Home, { path: RouterName.Home });
+            routerManager(RouterName.Info, { path: RouterName.Info });
         }
       }
       function regist () {
