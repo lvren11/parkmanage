@@ -9,9 +9,6 @@
         <el-form-item label="车牌号" class="form-item">
           <el-input v-model="searchForm.cnum"></el-input>
         </el-form-item>
-        <!-- <el-form-item label="手机号码" class="form-item">
-          <el-input v-model="searchForm.tel"></el-input>
-        </el-form-item> -->
         <el-form-item class="form-item">
           <el-button type="primary" @click="search">查询</el-button>
         </el-form-item>
@@ -23,9 +20,9 @@
     <el-table :data="vehicleData" border stripe>
       <el-table-column prop="cnum" label="车牌号"></el-table-column>
       <el-table-column prop="carum" label="车辆信息"></el-table-column>
-      <!-- <el-table-column prop="id" label="用户ID"></el-table-column>
+      <el-table-column prop="uid" label="用户ID"></el-table-column>
       <el-table-column prop="tel" label="手机号码"></el-table-column>
-      <el-table-column prop="integ" label="积分"></el-table-column> -->
+      <el-table-column prop="integ" label="积分"></el-table-column>
       <el-table-column label="操作" align="center" v-if="role === 1">
         <template #default="{ row }">
           <el-button type="text" @click="openEditDialog(row)">修改</el-button>
@@ -45,172 +42,179 @@
 
   <!-- 新增车辆弹窗 -->
   <el-dialog title="新增车辆" v-model="vehicleDialogVisible">
-  <el-form :model="vehicleForm" label-width="80px">
-    <el-form-item label="用户ID">
-      <el-input v-model="vehicleForm.uid" disabled></el-input>
-    </el-form-item>
-    <el-form-item label="车辆号">
-      <el-input v-model="vehicleForm.cnum"></el-input>
-    </el-form-item>
-    <el-form-item label="车辆信息">
-      <el-input v-model="vehicleForm.carum"></el-input>
-    </el-form-item>
-  </el-form>
-  <div class="dialog-footer">
-    <el-button @click="vehicleDialogVisible = false">取消</el-button>
-    <el-button type="primary" @click="submitVehicleForm">确定</el-button>
-  </div>
-</el-dialog>
-    <!-- 修改车辆弹窗 -->
-    <el-dialog title="修改车辆" v-model="editDialogVisible">
-      <el-form :model="editForm" label-width="80px">
-        <el-form-item label="用户ID">
-          <el-input v-model="editForm.uid" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="车辆号">
-          <el-input v-model="editForm.cnum"></el-input>
-        </el-form-item>
-        <el-form-item label="车辆信息">
-          <el-input v-model="editForm.carum"></el-input>
-        </el-form-item>
-      </el-form>
-      <div class="dialog-footer">
-        <el-button @click="editDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="submitEditForm">确定</el-button>
-      </div>
-    </el-dialog>
+    <el-form :model="vehicleForm" label-width="80px">
+      <el-form-item label="用户ID">
+        <el-input v-model="vehicleForm.uid" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="车辆号">
+        <el-input v-model="vehicleForm.cnum"></el-input>
+      </el-form-item>
+      <el-form-item label="车辆信息">
+        <el-input v-model="vehicleForm.carum"></el-input>
+      </el-form-item>
+    </el-form>
+    <div class="dialog-footer">
+      <el-button @click="vehicleDialogVisible = false">取消</el-button>
+      <el-button type="primary" @click="submitVehicleForm">确定</el-button>
+    </div>
+  </el-dialog>
+
+  <!-- 修改车辆弹窗 -->
+  <el-dialog title="修改车辆" v-model="editDialogVisible">
+    <el-form :model="editForm" label-width="80px">
+      <el-form-item label="用户ID">
+        <el-input v-model="editForm.uid" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="车辆号">
+        <el-input v-model="editForm.cnum"></el-input>
+      </el-form-item>
+      <el-form-item label="车辆信息">
+        <el-input v-model="editForm.carum"></el-input>
+      </el-form-item>
+    </el-form>
+    <div class="dialog-footer">
+      <el-button @click="editDialogVisible = false">取消</el-button>
+      <el-button type="primary" @click="submitEditForm">确定</el-button>
+    </div>
+  </el-dialog>
 </template>
 
 <script>
-import { reactive, ref } from 'vue'; // 导入 reactive 函数
-import { useStore } from 'vuex'; // 导入 mapState
+import { ref, reactive, onMounted } from 'vue';
+import { useStore } from 'vuex';
 import { HttpManager } from '@/api/index';
 
 export default {
   setup() {
-    const store = useStore(); // 获取 store
-    const vehicleForm = reactive({ // 使用 reactive 创建响应式对象
-      uid: '',
-      cnum: '',
-      carum: ''
-    });
+    const store = useStore();
+
+    const currentPage = ref(1);
+    const pageSize = ref(10);
+    const userId = ref(store.state.user.uid);
+    const id = ref(store.state.user.id);
+    const role = ref(store.state.user.role);
+    const vehicleDialogVisible = ref(false);
     const editDialogVisible = ref(false);
-    const editForm = reactive({
-      id:'',
+    const totalItems = ref(0);
+    const searchForm = reactive({
+      cnum: '',
+      tel: ''
+    });
+    const vehicleData = ref([]);
+    const vehicleForm = reactive({
       uid: '',
       cnum: '',
       carum: ''
     });
-    return {
-      currentPage: 1,
-      pageSize: 10,
-      userId: store.state.user.uid,
-      id: store.state.user.id,
-      role: store.state.user.role,
-      vehicleDialogVisible: ref(false),
-      totalItems: 0,
-      searchForm: reactive({
-        cnum: '',
-        tel: '',
-      }),
-      vehicleData: [],
-      vehicleForm, // 返回 vehicleForm
-      editDialogVisible,
-      editForm,
-    };
-  },
-  methods: {
-    async fetchData() {
+    const editForm = reactive({
+      id: '',
+      uid: '',
+      cnum: '',
+      carum: ''
+    });
+    fetchData();
+    const fetchData = async () => {
       try {
-        const response = await HttpManager.getAllCar(this.currentPage,this.pageSize,this.searchForm.cnum);
-        this.vehicleData = response.results;
-        // this.vehicleData = [{ id:'1', cnum: '沪A12345', carum: '奥迪A6', uid: '2', tel: '13812345678', integ: 90 },
-        //   { id:'2',cnum: '京B67890', carum: '宝马X5', uid: '3', tel: '13998765432', integ: 80 },
-        //   { id:'3',cnum: '粤C54321', carum: '奔驰C200', uid: '4', tel: '13787654321', integ: 95 },]
-        this.totalItems = response.count;
-        // this.totalItems = 3;
+        const response = await HttpManager.getAllCar(
+          currentPage.value,
+          pageSize.value,
+          searchForm.cnum
+        );
+        vehicleData.value = response.results;
+        totalItems.value = response.count;
       } catch (error) {
         console.error('Failed to fetch vehicle data:', error);
       }
-    },
-    addcar() {
-      // 打开新增车辆弹窗的逻辑
-      this.vehicleForm.uid = this.id; // 使用 this.userId
-      this.vehicleDialogVisible = true;
-    },
-    submitVehicleForm() {
-      // 提交新增车辆表单的逻辑
-      console.log('提交新增车辆表单:', this.vehicleForm);
-      // 在这里添加实际的提交逻辑
-            // 关闭弹窗
-      const response = HttpManager.addcar(this.vehicleForm);
-        // this.vehicleData = response.results;
-      this.$message({
-          message: response.message
-      });
-      this.vehicleDialogVisible = false; // 关闭弹窗
-      this.searchForm.cnum = '';
-      this.fetchData();
-    },
+    };
 
-    openEditDialog(row) {
-      // 将行数据填充到编辑表单中
-      this.editForm.id = row.id;
-      this.editForm.uid = row.uid;
-      this.editForm.cnum = row.cnum;
-      this.editForm.carum = row.carum;
-      // 显示弹窗
-      this.editDialogVisible = true;
-    },
+    const addcar = () => {
+      vehicleForm.uid = id.value;
+      vehicleDialogVisible.value = true;
+    };
 
-    // 提交修改车辆表单
-    submitEditForm() {
-      // 此处可添加提交表单的逻辑
-      console.log('提交修改车辆表单:', this.editForm);
-      const response = HttpManager.updatecar(this.editForm);
-        // this.vehicleData = response.results;
-      this.$message({
-          message: response.message
-      });
-      this.editDialogVisible = false;
-      this.searchForm.cnum = '';
-      this.fetchData();
-    },
-    confirmDeleteRow(row) {
+    const submitVehicleForm = async () => {
+      const response = await HttpManager.addcar(vehicleForm);
+      console.log('提交新增车辆表单:', vehicleForm);
+      console.log('Response:', response);
+      // Handle response
+      vehicleDialogVisible.value = false;
+      searchForm.cnum = '';
+      fetchData();
+    };
+
+    const openEditDialog = (row) => {
+      editForm.id = row.id;
+      editForm.uid = row.uid;
+      editForm.cnum = row.cnum;
+      editForm.carum = row.carum;
+      editDialogVisible.value = true;
+    };
+
+    const submitEditForm = async () => {
+      const response = await HttpManager.updatecar(editForm);
+      console.log('提交修改车辆表单:', editForm);
+      console.log('Response:', response);
+      // Handle response
+      editDialogVisible.value = false;
+      searchForm.cnum = '';
+      fetchData();
+    };
+    const confirmDeleteRow = (row) => {
       // 确认删除操作
       this.$confirm('此操作将永久删除该行数据，是否继续？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        // 确认删除后的逻辑，调用删除函数并传入行数据
-        this.deleteRow(row);
-      }).catch(() => {
-        // 用户取消删除操作
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
-      });
-    },
-    deleteRow(row) {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              // 确认删除后的逻辑，调用删除函数并传入行数据
+              this.deleteRow(row);
+            }).catch(() => {
+              // 用户取消删除操作
+              this.$message({
+                type: 'info',
+                message: '已取消删除'
+              });
+            });
+    };
+    const deleteRow = (row) => {
       // 在这里实现删除操作，可以调用 API 或者修改本地数据
       console.log('删除行:', row);
       HttpManager.deletecar(row.id);
       this.searchForm.cnum = '';
       this.fetchData();
-    },
-    async search() {
-      this.currentPage = 1;
-      await this.fetchData();
-    },
-    handleCurrentChange(val) {
-      this.currentPage = val;
-      this.fetchData();
-    },
-  },
-  mounted() {
-    this.fetchData();
+    };
+    const search = async () => {
+      currentPage.value = 1;
+      await fetchData();
+    };
+
+    const handleCurrentChange = (val) => {
+      currentPage.value = val;
+      fetchData();
+    };
+    return {
+      currentPage,
+      pageSize,
+      userId,
+      id,
+      role,
+      vehicleDialogVisible,
+      editDialogVisible,
+      totalItems,
+      searchForm,
+      vehicleData,
+      vehicleForm,
+      editForm,
+      fetchData,
+      addcar,
+      submitVehicleForm,
+      openEditDialog,
+      submitEditForm,
+      confirmDeleteRow,
+      deleteRow,
+      search,
+      handleCurrentChange
+    };
   },
 };
 </script>

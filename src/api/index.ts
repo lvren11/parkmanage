@@ -25,7 +25,7 @@ const HttpManager = {
     //车辆添加
     addcar:({cnum,carum,uid}) => post(`car/insert/`, {cnum, carum, uid}),
     //车辆信息修改
-    updatecar: ({cnum, carum, uid, id}) =>  put(`car/modify`, {
+    updatecar: ({cnum, carum, uid, id}) =>  put(`car/modify/`, {
         cnum, 
         carum, 
         uid, //用户主键
@@ -37,7 +37,7 @@ const HttpManager = {
     //停车位信息添加
     addparkinglot:({pnum, uid, pst, cnum, startdate,enddate,ust}) => post(`parkingspot/insert/`, {pnum, uid, pst, cnum, startdate,enddate,ust}),
     //停车位信息修改
-    updateparkinglot: ({id, pnum, uid, pst, cnum, startdate,enddate,ust}) =>  put(`parkingspot/modify`, {
+    updateparkinglot: ({id, pnum, uid, pst, cnum, startdate,enddate,ust}) =>  put(`parkingspot/modify/`, {
         id, 
         pnum,
         uid,
@@ -55,7 +55,7 @@ const HttpManager = {
     //租赁
     Buyparkingspot: (id,ust,uid,startdate,enddate) => post(`parkingspot/buy/`, {id, ust, uid,startdate,enddate}),
 
-    updateUserMsg: ({uid, tel, cnum, pwd, pnum, addr, integ}) => put(`user/modify`, {
+    updateUserMsg: ({uid, tel, cnum, pwd, pnum, addr, integ}) => put(`user/modify/`, {
         uid,
         tel,
         cnum,
