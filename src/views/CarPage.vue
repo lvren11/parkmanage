@@ -112,7 +112,7 @@ export default {
       cnum: '',
       carum: ''
     });
-    fetchData();
+    
     const fetchData = async () => {
       try {
         const response = await HttpManager.getAllCar(
@@ -126,7 +126,7 @@ export default {
         console.error('Failed to fetch vehicle data:', error);
       }
     };
-
+    fetchData();
     const addcar = () => {
       vehicleForm.uid = id.value;
       vehicleDialogVisible.value = true;
