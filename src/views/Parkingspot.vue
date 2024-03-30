@@ -140,7 +140,7 @@ export default {
       currentPage: 1,
       pageSize: 10,
       userId: store.state.user.uid,
-      isAdmin: store.state.user.roles === 'admin', // 根据用户角色确定是否为管理员
+      isAdmin: store.state.user.role === 1, // 根据用户角色确定是否为管理员
       id: store.state.user.id,
       totalItems: 0,
       searchForm: {

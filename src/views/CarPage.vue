@@ -26,7 +26,7 @@
       <!-- <el-table-column prop="id" label="用户ID"></el-table-column>
       <el-table-column prop="tel" label="手机号码"></el-table-column>
       <el-table-column prop="integ" label="积分"></el-table-column> -->
-      <el-table-column label="操作" align="center" v-if="roles === 'admin'">
+      <el-table-column label="操作" align="center" v-if="role === 1">
         <template #default="{ row }">
           <el-button type="text" @click="openEditDialog(row)">修改</el-button>
           <el-button type="text" @click="confirmDeleteRow(row)">删除</el-button>
@@ -106,7 +106,7 @@ export default {
       pageSize: 10,
       userId: store.state.user.uid,
       id: store.state.user.id,
-      roles: store.state.user.roles,
+      role: store.state.user.role,
       vehicleDialogVisible: ref(false),
       totalItems: 0,
       searchForm: reactive({

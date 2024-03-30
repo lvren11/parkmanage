@@ -28,7 +28,7 @@
         <el-icon><Document /></el-icon>
         <span>违停信息管理</span>
       </el-menu-item>
-      <el-menu-item index="rank" v-if="roles.includes('admin')">
+      <el-menu-item index="rank" v-if="role === 1">
         <el-icon><Document /></el-icon>
         <span>违停奖惩功能</span>
       </el-menu-item>
@@ -41,10 +41,10 @@ import { ref } from "vue";
 import { PieChart, Mic, Document, User } from "@element-plus/icons-vue";
 import emitter from "@/utils/emitter";
 import { useStore } from 'vuex'; // 导入 mapState
-
 const collapse = ref(false);
 const store = useStore(); // 获取 store
-const roles =  store.state.user.roles;
+const role =  store.state.user.role;
+
 emitter.on("collapse", (msg) => {
   collapse.value = msg as boolean;
 });

@@ -14,7 +14,6 @@ import YinAudio from "@/components/layouts/YinAudio.vue";
 import YinAside from "@/components/layouts/YinAside.vue";
 import emitter from "@/utils/emitter";
 import { useStore } from 'vuex'; // 导入 mapState
-import mixin from "@/mixins/mixin";
 import { RouterName } from "@/enums";
 
 const store = useStore(); // 获取 store
