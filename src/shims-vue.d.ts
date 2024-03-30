@@ -15,7 +15,7 @@ declare module "vue/types/vue" {
 }
 
 interface ResponseBody {
-  code: string;
+  code: Number;
   success: boolean;
   message: string;
   type: string;

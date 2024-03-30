@@ -5,9 +5,9 @@ const HttpManager = {
     attachImageUrl: (url) => `${getBaseURL()}/${url}`,
     // =======================> 管理员 API 完成
     // 是否登录成功
-    getLoginStatus: ({uid, pwd}) => post(`user/login`, {uid, pwd}),
+    getLoginStatus: ({uid, pwd}) => post(`user/login/`, {uid, pwd}),
     //注册
-    Register: ({tel,pwd}) => post(`user/register`, {tel, pwd}),
+    Register: ({tel,pwd}) => post(`user/register/`, {tel, pwd}),
     //多个查询
     getStateBreaking: (page,pages_size,state,state2) => get(`breaking/get?page=${page}&pages_size=${pages_size}&state=${state}&state=${state2}`),
     //获得违停记录
@@ -23,7 +23,7 @@ const HttpManager = {
     //个人车辆
     getMyCar: (page,pages_size,uid) => get(`car/get?page=${page}&pages_size=${pages_size}&uid=${uid}`),
     //车辆添加
-    addcar:({cnum,carum,uid}) => post(`car/insert`, {cnum, carum, uid}),
+    addcar:({cnum,carum,uid}) => post(`car/insert/`, {cnum, carum, uid}),
     //车辆信息修改
     updatecar: ({cnum, carum, uid, id}) =>  put(`car/modify`, {
         cnum, 
@@ -35,7 +35,7 @@ const HttpManager = {
     deletecar: (id) =>  deletes(`car/delete?id=${id}`),
 
     //停车位信息添加
-    addparkinglot:({pnum, uid, pst, cnum, startdate,enddate,ust}) => post(`parkingspot/insert`, {pnum, uid, pst, cnum, startdate,enddate,ust}),
+    addparkinglot:({pnum, uid, pst, cnum, startdate,enddate,ust}) => post(`parkingspot/insert/`, {pnum, uid, pst, cnum, startdate,enddate,ust}),
     //停车位信息修改
     updateparkinglot: ({id, pnum, uid, pst, cnum, startdate,enddate,ust}) =>  put(`parkingspot/modify`, {
         id, 
@@ -53,7 +53,7 @@ const HttpManager = {
     getAllparkinglot: (page,pages_size,pnum,cnum) => get(`parkingspot/get?page=${page}&pages_size=${pages_size}&pnum=${pnum}&cnum=${cnum}`),
 
     //租赁
-    Buyparkingspot: (id,ust,uid,startdate,enddate) => post(`parkingspot/buy`, {id, ust, uid,startdate,enddate}),
+    Buyparkingspot: (id,ust,uid,startdate,enddate) => post(`parkingspot/buy/`, {id, ust, uid,startdate,enddate}),
 
     updateUserMsg: ({uid, tel, cnum, pwd, pnum, addr, integ}) => put(`user/modify`, {
         uid,

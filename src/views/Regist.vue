@@ -53,7 +53,7 @@
           message: result.message
         });
   
-        if (result.success) {
+        if (result.code === 200) {
             proxy.$store.commit("setUser", result.data);
             routerManager(RouterName.Home, { path: RouterName.Home });
         }

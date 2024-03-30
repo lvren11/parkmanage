@@ -45,7 +45,7 @@ export default defineComponent({
       let uid = ruleForm.username;
       let pwd = ruleForm.password;
       const result = (await HttpManager.getLoginStatus({uid,pwd})) as ResponseBody;
-      if (result.success) {
+      if (result.code === 200) {
         proxy.$store.commit("setUser", result.data);
         routerManager(RouterName.Info, { path: RouterName.Info });
       }

@@ -8,15 +8,6 @@ export default createStore({
     id: '',
     breadcrumbList: [],
     user:{
-      id:1,
-      uid: 'A1b2c3',
-      tel: '13215628742',
-      cnum: '沪A.8F8F8',
-      pnum: '12',
-      addr: '20-03',
-      integ: 98,
-      pwd:'111',
-      roles:'admin'
     }
   },
   getters: {
