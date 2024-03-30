@@ -13,7 +13,7 @@ const HttpManager = {
     //获得违停记录
     getAllBreaking: (page,page_size) => get(`breaking/get?page=${page}&page_size=${page_size}`),
     //获取个人违停
-    getMyBreaking: (page,page_size,uid) => get(`breaking/get?page=${page}&page_size=${page_size}&uid=${uid}`),
+    getMyBreaking: (page,page_size,user_id) => get(`breaking/get?page=${page}&page_size=${page_size}&user_id=${user_id}`),
     //审批
     breakingaccess: ({cnum, uid, state, id}) => post(`breaking/review`, {cnum, uid, state, id}),
     //添加违停记录
@@ -21,7 +21,7 @@ const HttpManager = {
     //车辆查询
     getAllCar: (page,page_size,cnum) => get(`car/get?page=${page}&page_size=${page_size}&cnum=${cnum}`),
     //个人车辆
-    getMyCar: (page,page_size,uid) => get(`car/get?page=${page}&page_size=${page_size}&uid=${uid}`),
+    getMyCar: (page,page_size,user_id) => get(`car/get?page=${page}&page_size=${page_size}&user_id=${user_id}`),
     //车辆添加
     addcar:({cnum,carum,uid}) => post(`car/insert/`, {cnum, carum, uid}),
     //车辆信息修改
