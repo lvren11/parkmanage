@@ -8,12 +8,23 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref,getCurrentInstance } from "vue";
 import YinHeader from "@/components/layouts/YinHeader.vue";
 import YinAudio from "@/components/layouts/YinAudio.vue";
 import YinAside from "@/components/layouts/YinAside.vue";
 import emitter from "@/utils/emitter";
+import { useStore } from 'vuex'; // 导入 mapState
+import mixin from "@/mixins/mixin";
+import { RouterName } from "@/enums";
 
+const store = useStore(); // 获取 store
+const { proxy } = getCurrentInstance();
+if (!store.state.user || Object.keys(store.state.user).length === 0) {
+  // 如果用户未登录或用户状态为空，则导航到登录页面
+  proxy.$router.push({ path:RouterName.SignIn });
+  // window.location.reload();
+  proxy.$router.back();
+}
 const collapse = ref(false);
 emitter.on("collapse", (msg) => {
   collapse.value = msg as boolean;
