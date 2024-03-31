@@ -20,7 +20,7 @@ const HttpManager = {
     //添加违停记录
     addbreaking: ({user_id,cnum,state,info,poster,date}) => post(`breaking/insert/`,{user_id,cnum,state,info,poster,date}),
     //车辆查询
-    getAllCar: (page,page_size,cnum) => get(`car/get?page=${page}&page_size=${page_size}&cnum=${cnum}`),
+    getAllCar: (page,page_size,cnum,tel,uid) => get(`car/get?page=${page}&page_size=${page_size}&cnum=${cnum}&tel=${tel}&uid=${uid}`),
     //个人车辆
     getMyCar: (page,page_size,user_id) => get(`car/get?page=${page}&page_size=${page_size}&user_id=${user_id}`),
     //车辆添加

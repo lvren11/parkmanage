@@ -276,7 +276,11 @@ export default defineComponent({
       const response = (await HttpManager.addcar(vehicleForm)) as ResponseBody;
         // this.vehicleData = response.results;
       vehicleDialogVisible.value = false; // 关闭弹窗
-      ElMessage.success(`成功添加：${response.message}`);
+      if(response.code === 400){
+        ElMessage.error(`${response.message}`);
+      }else{
+        ElMessage.success(`${response.message}`);
+      }
       getcardata(user.id);
     }
 
@@ -302,11 +306,11 @@ export default defineComponent({
     }
 
 
-    function deleteVehicle(row) {
+    async function deleteVehicle(row) {
       // 删除车辆逻辑，你可以在这里处理删除车辆的操作
       console.log('删除车辆:', row);
       HttpManager.deletecar(row.id);
-      getcardata(user.id);
+      await getcardata(user.id);
     }
 
     const editVehicleDialogVisible = ref(false);
@@ -333,8 +337,12 @@ export default defineComponent({
       console.log("提交编辑后的车辆信息:", editedVehicleForm);
       // 关闭编辑车辆弹窗
       const response = (await HttpManager.updatecar(editedVehicleForm)) as ResponseBody;
-      ElMessage.success(`成功修改：${response.message}`);
       editVehicleDialogVisible.value = false;
+      if(response.code === 400){
+        ElMessage.error(`${response.message}`);
+      }else{
+        ElMessage.success(`${response.message}`);
+      }
       getcardata(user.id);
     }
 
@@ -342,14 +350,14 @@ export default defineComponent({
       routerManager(RouterName.breaking, { path: RouterName.breaking });
     }
 
-    function handleCurrentChange(val) {
+    async function handleCurrentChange(val) {
           page.value = val;
-          getVehicledata(user.id);
+          await getVehicledata(user.id);
       }
 
-      function handlevehicleDataChange(val) {
+      async function handlevehicleDataChange(val) {
           userpage.value = val;
-          getcardata(user.id);
+          await getcardata(user.id);
       }
     return {
       editing,

@@ -9,6 +9,12 @@
         <el-form-item label="车牌号" class="form-item">
           <el-input v-model="searchForm.cnum"></el-input>
         </el-form-item>
+        <el-form-item label="用户id" class="form-item">
+          <el-input v-model="searchForm.uid"></el-input>
+        </el-form-item>
+        <el-form-item label="电话号码" class="form-item">
+          <el-input v-model="searchForm.tel"></el-input>
+        </el-form-item>
         <el-form-item class="form-item">
           <el-button type="primary" @click="search">查询</el-button>
         </el-form-item>
@@ -98,7 +104,8 @@ export default {
     const totalItems = ref(0);
     const searchForm = reactive({
       cnum: '',
-      tel: ''
+      tel: '',
+      uid:''
     });
     const vehicleData = ref([]);
     const vehicleForm = reactive({
@@ -139,6 +146,8 @@ export default {
       // Handle response
       vehicleDialogVisible.value = false;
       searchForm.cnum = '';
+      searchForm.tel = '';
+      searchForm.uid = '';
       fetchData();
     };
 
@@ -157,6 +166,8 @@ export default {
       // Handle response
       editDialogVisible.value = false;
       searchForm.cnum = '';
+      searchForm.tel = '';
+      searchForm.uid = '';
       fetchData();
     };
     const confirmDeleteRow = (row) => {
@@ -180,7 +191,9 @@ export default {
       // 在这里实现删除操作，可以调用 API 或者修改本地数据
       console.log('删除行:', row);
       HttpManager.deletecar(row.id);
-      this.searchForm.cnum = '';
+      searchForm.cnum = '';
+      searchForm.tel = '';
+      searchForm.uid = '';
       this.fetchData();
     };
     const search = async () => {
