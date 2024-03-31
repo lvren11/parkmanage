@@ -77,9 +77,9 @@ const openApprovalDialog = (row) => {
   approvalDialogVisible.value = true;
 };
 
-const handleCurrentChange = (val) => {
+const handleCurrentChange = async (val) => {
   page.value = val;
-  fetchData();
+  await fetchData();
 };
 
 const submitApproval = async () => {
@@ -89,7 +89,7 @@ const submitApproval = async () => {
   approvalDialogVisible.value = false;
   ElMessage.success(`审核成功：${res.message}`);
   selectedRow.value = null;
-  fetchData();
+  await fetchData();
 };
 const showimage = (file) => {
   if (file) {
