@@ -42,10 +42,10 @@
     <el-dialog v-model="approvalDialogVisible" title="审核" width="30%">
       <el-radio-group v-model="selectedApprovalState">
         <el-radio :label="-1">不通过</el-radio>
-        <el-radio :label="1">一般</el-radio>
-        <el-radio :label="2">严重</el-radio>
+        <el-radio :label="1">一般违停</el-radio>
+        <el-radio :label="2">严重违停</el-radio>
       </el-radio-group>
-      <el-button type="primary" @click="submitApproval">确定</el-button>
+      <el-button class ="buttons" type="primary" @click="submitApproval">确定</el-button>
     </el-dialog>
   </div>
 </template>
@@ -115,5 +115,8 @@ const showimage = (file) => {
 
 .violationrecord h3 {
   margin-bottom: 10px;
+}
+.buttons{
+  margin-left: 20px;
 }
 </style>
