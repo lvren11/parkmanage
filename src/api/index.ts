@@ -12,6 +12,7 @@ const HttpManager = {
     getStateBreaking: (page,page_size,state,state2) => get(`breaking/get?page=${page}&page_size=${page_size}&state=${state}&state=${state2}`),
     //获得违停记录
     getAllBreaking: (page,page_size) => get(`breaking/get?page=${page}&page_size=${page_size}`),
+    getAdminBreaking: (page,page_size,state,state2,state3,state4)=> get(`breaking/get?page=${page}&page_size=${page_size}&state=${state}&state=${state2}&state3=${state3}&state4=${state4}`),
     //获取个人违停
     getMyBreaking: (page,page_size,user_id) => get(`breaking/get?page=${page}&page_size=${page_size}&user_id=${user_id}`),
     //审批
