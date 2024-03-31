@@ -45,6 +45,7 @@ export default defineComponent({
 
     const collapse = ref(true);
     const username = computed(() => store.getters.user.uid);
+    const role = store.getters.user.role;
     const userPic = computed(() => store.getters.userPic);
     const nusicName = ref(MUSICNAME);
 
@@ -66,7 +67,9 @@ export default defineComponent({
       }
     }
     function gopersonal(){
-      routerManager(RouterName.Personal, { path: RouterName.Personal });
+      if(role === 0){
+        routerManager(RouterName.Personal, { path: RouterName.Personal });
+      }
     }
     return {
       nusicName,

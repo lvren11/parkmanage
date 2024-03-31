@@ -59,7 +59,7 @@
     <el-form-item label="停车位号" prop="pnum">
       <el-input v-model="addForm.pnum" ></el-input>
     </el-form-item>
-    <el-form-item label="车牌号" prop="cnum">
+    <!-- <el-form-item label="车牌号" prop="cnum">
       <el-input v-model="addForm.cnum"></el-input>
     </el-form-item>
     <el-form-item label="停车位状态" prop="pst">
@@ -81,7 +81,7 @@
     </el-form-item>
     <el-form-item label="终止日期" prop="enddate">
       <el-date-picker v-model="addForm.enddate" type="date" placeholder="选择日期" style="width:100%;"></el-date-picker>
-    </el-form-item>
+    </el-form-item> -->
   </el-form>
   <div class="dialog-footer">
     <el-button @click="addDialogVisible = false">取 消</el-button>
@@ -164,8 +164,8 @@ export default {
         pnum: '',
         cnum: '',
         user_id:'',
-        pst: "0",
-        ust: 'd',
+        pst: '',
+        ust: '',
         startdate: '',
         enddate: ''
       },
