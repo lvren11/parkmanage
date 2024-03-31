@@ -64,7 +64,7 @@
               <div>{{ changeState(scope.row.state) }}</div>
             </template>
           </el-table-column>
-          <el-table-column prop="info" label="违停图片"></el-table-column>
+          <el-table-column prop="info" label="违停信息"></el-table-column>
           <el-table-column prop="poster" label="poster">
               <template v-slot="scope">
                 <img :src="attachimageurl(scope.row.poster)" style="width: 80px" />
