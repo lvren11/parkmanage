@@ -56,9 +56,10 @@ const HttpManager = {
     //租赁
     Buyparkingspot: (id,ust,user_id,startdate) => post(`parkingspot/buy/`, {id, ust, user_id,startdate}),
 
-    updateUserMsg: ({id, tel, cnum, pwd, pnum, addr, integ}) => put(`user/modify/`, {
+    updateUserMsg: ({id, tel, cnum, pwd, pnum, addr, uid, integ}) => put(`user/modify/`, {
         id,
         tel,
+        uid,
         cnum,
         pnum,
         addr,
