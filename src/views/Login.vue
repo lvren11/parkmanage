@@ -26,7 +26,7 @@ import { defineComponent, getCurrentInstance, ref, reactive } from "vue";
 import mixin from "@/mixins/mixin";
 import { HttpManager } from "@/api/index";
 import { RouterName, MUSICNAME } from "@/enums";
-
+import { ElMessage} from 'element-plus';
 export default defineComponent({
   setup() {
     const { proxy } = getCurrentInstance();
@@ -48,6 +48,8 @@ export default defineComponent({
       if (result.code === 200) {
         proxy.$store.commit("setUser", result.data);
         routerManager(RouterName.Info, { path: RouterName.Info });
+      }else{
+        ElMessage.success(`登录失败`);
       }
     }
     function regist () {

@@ -57,7 +57,7 @@
             proxy.$store.commit("setUser", result.data);
             routerManager(RouterName.Info, { path: RouterName.Info });
         }else{
-          ElMessage.success(`登录失败`);
+          ElMessage.success(`注册失败`);
         }
       }
       function regist () {
