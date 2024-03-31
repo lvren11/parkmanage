@@ -76,19 +76,12 @@
         const filteredData = computed(() => {
           return data.value.filter(item => item.state === 1 || item.state === 2);
         });
-        const attachImageUrl = (file) =>{
-          if (file) {
-            return URL.createObjectURL(file);
-          } else {
-            return null; // or any default image URL or placeholder
-          }
-        }
       return {
         filteredData,
         page,
         pages_size,
         changeState,
-        attachImageUrl,
+        attachImageUrl:HttpManager.attachImageUrl,
         handleCurrentChange
       };
     },

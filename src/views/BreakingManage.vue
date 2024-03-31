@@ -67,7 +67,7 @@
           <el-table-column prop="info" label="违停图片"></el-table-column>
           <el-table-column prop="poster" label="poster">
               <template v-slot="scope">
-                <img :src="showimage(scope.row.poster)" style="width: 80px" />
+                <img :src="attachimageurl(scope.row.poster)" style="width: 80px" />
               </template>
           </el-table-column>
           <el-table-column prop="date" label="举报日期"></el-table-column>
@@ -165,13 +165,6 @@
         page.value = val;
         getData();
       };
-      const showimage = (file) =>{
-        if (file) {
-          return URL.createObjectURL(file);
-        } else {
-          return null; // or any default image URL or placeholder
-        }
-        }
       return {
         userId,
         imageUrl,
