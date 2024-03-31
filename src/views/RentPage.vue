@@ -8,12 +8,22 @@
       <el-form :inline="true" :model="rentalForm" class="form-item">
         <!-- 停车位选择 -->
         <el-form-item label="停车位号">
-          <el-select v-model="rentalForm.pnum" placeholder="请选择停车位">
+          <el-select v-model="rentalForm.pnum" placeholder="请选择停车位" :rules="[{ required: true, message: '请选择停车位', trigger: 'change' }]">
             <el-option
               v-for="item in availableParking"
               :key="item.id"
               :label="item.pnum"
               :value="item.pnum"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="车辆选择">
+          <el-select v-model="rentalForm.cnum" placeholder="请选择车辆" :rules="[{ required: true, message: '请选择车辆', trigger: 'change' }]">
+            <el-option
+              v-for="item in availablCar"
+              :key="item.id"
+              :label="item.cnum"
+              :value="item.cnum"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -97,6 +107,10 @@ export default {
         id:'',
         pnum: '', // 停车位号
       },
+      availablCar:{
+        id:'',
+        cnum:''
+      },
       startDate: '', // 开始日期
       endDate: '', // 结束日期
       availableParking: [], // 可用停车位列表
@@ -116,14 +130,20 @@ export default {
       // 注意要根据选择的租赁时间计算租金，可以使用 rentalType 和 startDate、endDate 来计算租金
       // 处理完后可以刷新可用停车位列表
       // 以下是示例代码
+      if (!this.rentalForm.pnum || !this.availablCar.cnum) {
+        // 显示错误消息提示用户选择停车位和车辆
+        this.$message.error('请选择停车位和车辆');
+        return; // 中止方法执行
+      }
       console.log('用户id', this.id);
       console.log('租赁停车位id：', this.findIdByPnum(this.availableParking,this.rentalForm.pnum));
       console.log('租赁停车位：', this.rentalForm.pnum);
+      console.log('车辆', this.availablCar.cnum);
       console.log('租赁类别：', this.renttype);
       console.log('开始日期：', this.startDate);
       // console.log('结束日期：', this.endDate);
       console.log('支付金额：', this.paymentAmount);
-      const res = await HttpManager.Buyparkingspot(this.findIdByPnum(this.availableParking,this.rentalForm.pnum),this.renttype,this.id,this.startDate);
+      const res = await HttpManager.Buyparkingspot(this.findIdByPnum(this.availableParking,this.rentalForm.pnum),this.renttype,this.id, this.availablCar.cnum, this.startDate);
       // ElMessage.success(`成功租赁：${res.message}`);
     },
     findIdByPnum(availableParking, targetPnum){
@@ -163,6 +183,22 @@ export default {
         // ];
         const response = await HttpManager.getAllparkinglot(1,1000,"","");
         this.availableParking = response.results.filter(item => item.pst === 0);
+        // this.availableParking = fakeData;
+      } catch (error) {
+        console.error('Failed to fetch available parking:', error);
+      }
+    },
+    async fetchAvailableCar() {
+      try {
+        // 这里发送请求获取空闲停车位列表
+        // 假设已经从后端接口获取到了数据
+        // const fakeData = [
+        //   { id: '1', pnum: 'P001' },
+        //   { id: '2', pnum: 'P002' },
+        //   { id: '3', pnum: 'P003' },
+        // ];
+        const response = await HttpManager.getMyCar(1,1000,this.id);
+        this.availablCar = response.results;
         // this.availableParking = fakeData;
       } catch (error) {
         console.error('Failed to fetch available parking:', error);
@@ -216,6 +252,7 @@ export default {
   },
   mounted() {
     this.fetchAvailableParking(); // 获取可用停车位列表
+    this.fetchAvailableCar(); // 获取车列表
     if (this.$route.query.pnum) {
       this.rentalForm.pnum = this.$route.query.pnum;
     }

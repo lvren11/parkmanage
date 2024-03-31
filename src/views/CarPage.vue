@@ -125,7 +125,9 @@ export default {
         const response = await HttpManager.getAllCar(
           currentPage.value,
           pageSize.value,
-          searchForm.cnum
+          searchForm.cnum,
+          searchForm.tel,
+          searchForm.uid
         );
         vehicleData.value = response.results;
         totalItems.value = response.count;

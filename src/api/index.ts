@@ -54,7 +54,7 @@ const HttpManager = {
     getAllparkinglot: (page,page_size,pnum,cnum) => get(`parkingspot/get?page=${page}&page_size=${page_size}&pnum=${pnum}&cnum=${cnum}`),
 
     //租赁
-    Buyparkingspot: (id,ust,user_id,startdate) => post(`parkingspot/buy/`, {id, ust, user_id,startdate}),
+    Buyparkingspot: (id,ust,user_id,cnum,startdate) => post(`parkingspot/buy/`, {id, ust, cnum,user_id,startdate}),
 
     updateUserMsg: ({id, tel, cnum, pwd, pnum, addr, uid, integ}) => put(`user/modify/`, {
         id,

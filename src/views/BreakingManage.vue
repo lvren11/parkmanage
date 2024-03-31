@@ -151,13 +151,13 @@
         dataForm.append('poster', firstFile)
         axios({
             method: 'POST',
-            url: 'http://localhost:8000/breaking/insert',
+            url: 'http://localhost:8000/breaking/insert/',
             data: dataForm,
             headers: {
                 "Content-Type": "multipart/form-data"
             }
         }).then(response => {
-          ElMessage.success(`成功上传：${res.message}`);
+          ElMessage.success(`成功上传：${response.message}`);
         })
       };
   
