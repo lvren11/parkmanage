@@ -49,7 +49,7 @@ export default defineComponent({
         proxy.$store.commit("setUser", result.data);
         routerManager(RouterName.Info, { path: RouterName.Info });
       }else{
-        ElMessage.success(`登录失败`);
+        ElMessage.error(`登录失败`);
       }
     }
     function regist () {
