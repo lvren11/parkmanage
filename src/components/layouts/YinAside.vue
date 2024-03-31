@@ -20,7 +20,7 @@
         <el-icon><Document /></el-icon>
         <span>停车位信息管理</span>
       </el-menu-item>
-      <el-menu-item index="ust">
+      <el-menu-item index="ust" v-if="role === 0">
         <el-icon><User /></el-icon>
         <span>停车位租赁</span>
       </el-menu-item>
