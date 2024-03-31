@@ -64,13 +64,13 @@
               <div>{{ changeState(scope.row.state) }}</div>
             </template>
           </el-table-column>
-          <el-table-column prop="Info" label="违停图片"></el-table-column>
+          <el-table-column prop="info" label="违停图片"></el-table-column>
           <el-table-column prop="poster" label="poster">
               <template v-slot="scope">
                 <img :src="showimage(scope.row.poster)" style="width: 80px" />
               </template>
           </el-table-column>
-          <el-table-column prop="Date" label="举报日期"></el-table-column>
+          <el-table-column prop="date" label="举报日期"></el-table-column>
         </el-table>
         <el-pagination
           class="pagination"
@@ -111,10 +111,10 @@
       const violationForm = ref({
         // level: 'serious', // 违停程度
         user_id:uid,
-        Date:dateStr,
+        date:dateStr,
         state:0,
         poster:'',
-        Info:'',
+        info:'',
         cnum:''
       });
       const fileList  = ref([]);
@@ -144,10 +144,10 @@
         violationForm.value.poster = firstFile;
 
         dataForm.append('user_id', violationForm.value.user_id)
-        dataForm.append('Date', violationForm.value.Date)
+        dataForm.append('date', violationForm.value.date)
         dataForm.append('cnum', violationForm.value.cnum)
         dataForm.append('state', violationForm.value.state)
-        dataForm.append('Info', violationForm.value.Info)
+        dataForm.append('info', violationForm.value.info)
         dataForm.append('poster', firstFile)
         axios({
             method: 'POST',

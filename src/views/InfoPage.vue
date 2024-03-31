@@ -25,13 +25,13 @@
               <div>{{ changeState(scope.row.state) }}</div>
             </template>
           </el-table-column>
-          <el-table-column prop="Info" label="违停信息"></el-table-column>
+          <el-table-column prop="info" label="违停信息"></el-table-column>
           <el-table-column prop="poster" label="违停图片">
               <template v-slot="scope">
                 <img :src="attachImageUrl(scope.row.poster)" style="width: 80px" />
               </template>
           </el-table-column>
-          <el-table-column prop="Date" label="举报日期"></el-table-column>
+          <el-table-column prop="date" label="举报日期"></el-table-column>
         </el-table>
         <el-pagination
           class="pagination"

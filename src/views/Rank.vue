@@ -20,7 +20,7 @@
                 </el-dialog>
               </template>
             </el-table-column>
-            <el-table-column prop="Date" label="举报日期"></el-table-column>
+            <el-table-column prop="date" label="举报日期"></el-table-column>
           <el-table-column label="操作">
             <template v-slot="scope">
               <el-button v-if="scope.row.state === 0" type="primary" @click="openApprovalDialog(scope.row)">审核</el-button>
