@@ -14,7 +14,7 @@
             <el-table-column prop="Info" label="违停信息"></el-table-column>
             <el-table-column prop="poster" label="违停图片">
               <template v-slot="scope">
-                <img :src="URL.createObjectURL(scope.row.poster)" style="width: 80px; cursor: pointer;" @click="showPreview(scope.row)" />
+                <img :src="showimage(scope.row.poster)" style="width: 80px; cursor: pointer;" @click="showPreview(scope.row)" />
                 <el-dialog :visible="dialogVisible" width="50%" :title="previewTitle">
                   <img width="100%" :src="previewImageUrl" alt="图片预览" />
                 </el-dialog>
@@ -91,7 +91,9 @@ const submitApproval = async () => {
   selectedRow.value = null;
   fetchData();
 };
-
+const showimage = (file) =>{
+  return URL.createObjectURL(file);
+}
 </script>
 
 <style scoped>

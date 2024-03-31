@@ -67,7 +67,7 @@
           <el-table-column prop="Info" label="违停图片"></el-table-column>
           <el-table-column prop="poster" label="poster">
               <template v-slot="scope">
-                <img :src="URL.createObjectURL(scope.row.poster)" style="width: 80px" />
+                <img :src="showimage(scope.row.poster)" style="width: 80px" />
               </template>
           </el-table-column>
           <el-table-column prop="Date" label="举报日期"></el-table-column>
@@ -165,7 +165,9 @@
         page.value = val;
         getData();
       };
-  
+      const showimage = (file) =>{
+          return URL.createObjectURL(file);
+        }
       return {
         userId,
         imageUrl,
@@ -175,6 +177,7 @@
         data,
         filteredData,
         submitForm,
+        showimage,
         changeState,
         httpRequest,
         handleCurrentChange,
