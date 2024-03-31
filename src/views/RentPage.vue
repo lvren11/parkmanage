@@ -158,7 +158,7 @@ export default {
         //   { id: '2', pnum: 'P002' },
         //   { id: '3', pnum: 'P003' },
         // ];
-        const response = await HttpManager.getAllBreaking(1,100);
+        const response = await HttpManager.getAllparkinglot(1,1000,"","");
         this.availableParking = response.results.filter(item => item.pst === 0);
         // this.availableParking = fakeData;
       } catch (error) {
