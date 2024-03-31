@@ -153,7 +153,7 @@ export default {
         id:'',
         pnum: '',
         cnum: '',
-        uid:'',
+        user_id:'',
         pst: "0",
         ust: 'd',
         startdate: '',
@@ -163,7 +163,7 @@ export default {
       addForm: {
         pnum: '',
         cnum: '',
-        uid:'',
+        user_id:'',
         pst: "0",
         ust: 'd',
         startdate: '',
@@ -223,12 +223,12 @@ export default {
       this.fetchData();
     },
     handleClick(row) {
-      if (row.pst === '0') {
+      if (row.pst === 0) {
         this.$router.push({ path: RouterName.ust, query: { pnum: row.pnum }});
       }
     },
     getStatusStyle(pst) {
-      return pst === '0' ? { color: 'green' } : { color: 'red' };
+      return pst === 0 ? { color: 'green' } : { color: 'red' };
     },
     handleAdd() {
       // 打开添加停车位信息弹窗

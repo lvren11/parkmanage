@@ -58,6 +58,6 @@ export function changeState(state) {
 }
 
 export function getStatusText(code) {
-  return code === '0' ? '空闲' : '租赁中';
+  return code === 0 ? '空闲' : '租赁中';
 }
 

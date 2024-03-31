@@ -7,7 +7,7 @@ import './mock/index';
 import "element-plus/dist/index.css";
 import "./assets/css/main.css";
 import "./assets/icons/iconfont.js";
-
+import * as Icons from '@element-plus/icons-vue';  
 import { Store } from "vuex";
 declare module "@vue/runtime-core" {
   interface State {
@@ -19,4 +19,11 @@ declare module "@vue/runtime-core" {
   }
 }
 
-createApp(App).use(store).use(router).use(ElementPlus).mount("#app");
+const app = createApp(App);  
+  
+// 注册所有图标  
+Object.keys(Icons).forEach(key => {  
+  app.component(key, Icons[key]);  
+});  
+  
+app.use(store).use(router).use(ElementPlus).mount("#app");

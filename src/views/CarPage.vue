@@ -102,13 +102,13 @@ export default {
     });
     const vehicleData = ref([]);
     const vehicleForm = reactive({
-      uid: '',
+      user_id: '',
       cnum: '',
       carum: ''
     });
     const editForm = reactive({
       id: '',
-      uid: '',
+      user_id: '',
       cnum: '',
       carum: ''
     });
@@ -128,7 +128,7 @@ export default {
     };
     fetchData();
     const addcar = () => {
-      vehicleForm.uid = id.value;
+      vehicleForm.user_id = id.value;
       vehicleDialogVisible.value = true;
     };
 
@@ -144,7 +144,7 @@ export default {
 
     const openEditDialog = (row) => {
       editForm.id = row.id;
-      editForm.uid = row.uid;
+      editForm.user_id = row.user_id;
       editForm.cnum = row.cnum;
       editForm.carum = row.carum;
       editDialogVisible.value = true;

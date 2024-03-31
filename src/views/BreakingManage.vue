@@ -6,15 +6,17 @@
       </div>
       <el-form :model="violationForm" class="violation-form">
         <!-- 图片上传 -->
-        <el-form-item>
+
+        <el-form-item label="违停图片">
           <el-upload
-            class="upload-demo"
-            action="/upload"
-            :auto-upload="false"
-            :on-change="handleChange"
+            class="avatar-uploader"
+            action=""
+            :http-request="httpRequest"
             :show-file-list="false"
+            :accept="'.img,.png,.jpg,.jpeg'"
           >
-            <el-button size="small" type="primary">上传图片</el-button>
+            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+            <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
           </el-upload>
         </el-form-item>
         <!-- 违停说明 -->
@@ -65,7 +67,7 @@
           <el-table-column prop="Info" label="违停图片"></el-table-column>
           <el-table-column prop="poster" label="poster">
               <template v-slot="scope">
-                <img :src="attachimageurl(scope.row.poster)" style="width: 80px" />
+                <img :src="URL.createObjectURL(scope.row.poster)" style="width: 80px" />
               </template>
           </el-table-column>
           <el-table-column prop="Date" label="举报日期"></el-table-column>
@@ -91,12 +93,14 @@
   import { changeState} from "@/utils";
   import { ElMessage} from 'element-plus';
 
+  import axios from "axios";
+
   export default {
     setup() {
       const store = useStore(); // 获取 store
       const userId = computed(() => store.state.user.uid);
-      const uid = computed(() => store.state.user.id);
-
+      const uid =store.state.user.id;
+      const imageUrl = ref(null);
       const currentDate = new Date();
       const year = currentDate.getFullYear();
       const month = String(currentDate.getMonth() + 1).padStart(2, '0');
@@ -106,14 +110,14 @@
 
       const violationForm = ref({
         // level: 'serious', // 违停程度
-        uid:uid,
+        user_id:uid,
         Date:dateStr,
         state:0,
         poster:'',
         Info:'',
         cnum:''
       });
-      const fileurl = '';
+      const fileList  = ref([]);
       const page = ref(1);
       const pages_size = ref(10);
       const data = ref([]);
@@ -127,16 +131,34 @@
       const filteredData = computed(() => {
         return data.value.filter(item => item.state === 1 || item.state === 2);
       });
-      const handleChange = (file) => {
-        console.log('上传图片:', file);
-        // 处理上传图片操作
+
+      const httpRequest =(option) =>{
+        fileList.value.push(option);
+        imageUrl.value = URL.createObjectURL(option.file);
       };
-  
+
       const submitForm = () => {
+        const firstFile = fileList.value.length > 0 ? fileList.value[0].file : null;
+        let dataForm = new FormData();
         console.log('提交表单:', violationForm.value);
-        violationForm.value.poster = fileurl;
-        const res = HttpManager.addbreaking(violationForm.value);
-        ElMessage.success(`成功上传：${res.message}`);
+        violationForm.value.poster = firstFile;
+
+        dataForm.append('user_id', violationForm.value.user_id)
+        dataForm.append('Date', violationForm.value.Date)
+        dataForm.append('cnum', violationForm.value.cnum)
+        dataForm.append('state', violationForm.value.state)
+        dataForm.append('Info', violationForm.value.Info)
+        dataForm.append('poster', firstFile)
+        axios({
+            method: 'POST',
+            url: 'http://localhost:8000/breaking/insert',
+            data: dataForm,
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        }).then(response => {
+          ElMessage.success(`成功上传：${res.message}`);
+        })
       };
   
       const handleCurrentChange = (val) => {
@@ -146,14 +168,15 @@
   
       return {
         userId,
+        imageUrl,
         violationForm,
         page,
         pages_size,
         data,
         filteredData,
-        handleChange,
         submitForm,
         changeState,
+        httpRequest,
         handleCurrentChange,
         attachimageurl:HttpManager.attachImageUrl,
       };
@@ -161,6 +184,14 @@
   };
   </script>
   
+
+  <style scoped>
+  .avatar-uploader .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+  </style>
   
   <style scoped>
   .illegal-parking-management {
@@ -192,7 +223,39 @@
 .violationrules {
   margin-bottom: 20px;
 }
+.avatar-uploader {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
 
+.avatar-uploader:hover {
+  border-color: var(--el-color-primary);
+}
+
+.avatar-uploader .el-upload {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* .avatar-uploader .avatar {
+  width: 100%;
+  height: 100%;
+} */
+
+.avatar-uploader .avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+  display: block;
+}
 .rulebox {
   border: 1px solid #ccc;
   padding: 20px;

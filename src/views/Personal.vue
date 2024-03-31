@@ -9,12 +9,12 @@
       <el-form-item label="手机号码">
         <el-input v-model="user.tel" :disabled="!editing"></el-input>
       </el-form-item>
-      <el-form-item label="车牌号">
+      <!--  <el-form-item label="车牌号">
         <el-input v-model="user.cnum" :disabled="!editing"></el-input>
       </el-form-item>
       <el-form-item label="停车位号">
         <el-input v-model="user.pnum" :disabled="!editing"></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="个人住址">
         <el-input v-model="user.addr" :disabled="!editing"></el-input>
       </el-form-item>
@@ -116,9 +116,9 @@
       <!-- 新增车辆弹窗 -->
     <el-dialog title="新增车辆" v-model="vehicleDialogVisible">
       <el-form :model="vehicleForm" label-width="80px">
-        <el-form-item label="用户ID">
+        <!-- <el-form-item label="用户ID">
           <el-input v-model="vehicleForm.uid" disabled></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="车辆号">
           <el-input v-model="vehicleForm.cnum"></el-input>
         </el-form-item>
@@ -134,9 +134,9 @@
 
     <el-dialog title="编辑车辆" v-model="editVehicleDialogVisible">
     <el-form :model="editedVehicleForm" label-width="80px">
-      <el-form-item label="用户ID">
+      <!-- <el-form-item label="用户ID">
         <el-input v-model="editedVehicleForm.uid" disabled></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="车辆号">
         <el-input v-model="editedVehicleForm.cnum"></el-input>
       </el-form-item>
@@ -221,7 +221,7 @@ export default defineComponent({
       console.log(formData);
       toggleEdit();
       const result = (await HttpManager.updateUserMsg(formData)) as ResponseBody;
-      if (result.success) {
+      if (result.code === 200) {
           proxy.$store.commit("setUser", formData);
       }
     }
@@ -258,14 +258,14 @@ export default defineComponent({
     // 新增车辆弹窗相关数据和方法
     const vehicleDialogVisible = ref(false);
     const vehicleForm = reactive({
-      uid: '',
+      user_id: '',
       cnum: '',
       carum: ''
     });
 
     function addVehicle() {
       // 打开新增车辆弹窗的逻辑
-      vehicleForm.uid = user.id;
+      vehicleForm.user_id = user.id;
       vehicleDialogVisible.value = true;
     }
 
@@ -312,7 +312,7 @@ export default defineComponent({
     const editVehicleDialogVisible = ref(false);
     const editedVehicleForm = reactive({
       id:"",
-      uid: "",
+      user_id: "",
       cnum: "",
       carum: ""
     });
@@ -321,7 +321,7 @@ export default defineComponent({
     function editVehicle(row) {
       // 将选中行的信息赋值给编辑车辆表单，并打开弹窗
       editedVehicleForm.id = row.id;
-      editedVehicleForm.uid = user.id;
+      editedVehicleForm.user_id = user.id;
       editedVehicleForm.cnum = row.cnum;
       editedVehicleForm.carum = row.carum;
       editVehicleDialogVisible.value = true;
@@ -344,7 +344,7 @@ export default defineComponent({
 
     function handleCurrentChange(val) {
           page.value = val;
-          getVehicledata
+          getVehicledata(user.id);
       }
 
       function handlevehicleDataChange(val) {

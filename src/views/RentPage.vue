@@ -25,9 +25,9 @@
           <el-date-picker v-model="startDate" type="date" placeholder="选择开始日期"></el-date-picker>
         </el-form-item>
         <!-- 结束日期 -->
-        <el-form-item label="结束日期">
+        <!-- <el-form-item label="结束日期">
           <el-date-picker v-model="endDate" type="date" placeholder="选择结束日期"></el-date-picker>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
     </div>
     <el-row>
@@ -72,9 +72,9 @@
       <el-button type="success" @click="payByWechat">微信支付{{ paymentAmount }}</el-button>
     </div>
       <!-- 租赁按钮 -->
-    <div class="final">
+    <!-- <div class="final">
       <el-button type="primary" @click="rentParking">租赁</el-button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -118,10 +118,10 @@ export default {
       console.log('租赁停车位：', this.rentalForm.pnum);
       console.log('租赁类别：', this.renttype);
       console.log('开始日期：', this.startDate);
-      console.log('结束日期：', this.endDate);
+      // console.log('结束日期：', this.endDate);
       console.log('支付金额：', this.paymentAmount);
-      const res = await HttpManager.Buyparkingspot(this.findIdByPnum(this.availableParking,this.rentalForm.pnum),this.renttype,this.id,this.startDate,this.endDate);
-      ElMessage.success(`成功租赁：${res.message}`);
+      const res = await HttpManager.Buyparkingspot(this.findIdByPnum(this.availableParking,this.rentalForm.pnum),this.renttype,this.id,this.startDate);
+      // ElMessage.success(`成功租赁：${res.message}`);
     },
     findIdByPnum(availableParking, targetPnum){
       const foundParking = availableParking.find(parking => parking.pnum === targetPnum);
@@ -153,14 +153,14 @@ export default {
       try {
         // 这里发送请求获取空闲停车位列表
         // 假设已经从后端接口获取到了数据
-        const fakeData = [
-          { id: '1', pnum: 'P001' },
-          { id: '2', pnum: 'P002' },
-          { id: '3', pnum: 'P003' },
-        ];
-        // const response = await HttpManager.getAllBreaking(1,100);
-        // this.availableParking = response.results;
-        this.availableParking = fakeData;
+        // const fakeData = [
+        //   { id: '1', pnum: 'P001' },
+        //   { id: '2', pnum: 'P002' },
+        //   { id: '3', pnum: 'P003' },
+        // ];
+        const response = await HttpManager.getAllBreaking(1,100);
+        this.availableParking = response.results.filter(item => item.pst === 0);
+        // this.availableParking = fakeData;
       } catch (error) {
         console.error('Failed to fetch available parking:', error);
       }
@@ -176,6 +176,7 @@ export default {
       // 处理支付宝支付
       console.log('支付宝支付', this.paymentAmount);
       // 弹出成功支付提示
+      await this.rentParking();
       ElMessage.success(`成功支付金额：${this.paymentAmount}元`);
     } catch (error) {
       console.error('支付处理出错:', error);
@@ -198,6 +199,7 @@ export default {
       // 处理微信支付
       console.log('微信支付', this.paymentAmount);
       // 弹出成功支付提示
+      await this.rentParking();
       ElMessage.success(`成功支付金额：${this.paymentAmount}元`);
     } catch (error) {
       console.error('支付处理出错:', error);
