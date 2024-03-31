@@ -157,7 +157,12 @@
                 "Content-Type": "multipart/form-data"
             }
         }).then(response => {
-          ElMessage.success(`成功上传：${response.message}`);
+          if(response == 400){
+            ElMessage.error(`${response.data.message}`);
+          }
+          else{
+            ElMessage.success(`${response.data.message}`);
+          }
         })
       };
   
