@@ -166,7 +166,11 @@
         getData();
       };
       const showimage = (file) =>{
+        if (file) {
           return URL.createObjectURL(file);
+        } else {
+          return null; // or any default image URL or placeholder
+        }
         }
       return {
         userId,

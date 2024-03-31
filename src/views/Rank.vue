@@ -91,8 +91,12 @@ const submitApproval = async () => {
   selectedRow.value = null;
   fetchData();
 };
-const showimage = (file) =>{
-  return URL.createObjectURL(file);
+const showimage = (file) => {
+  if (file) {
+    return URL.createObjectURL(file);
+  } else {
+    return null; // or any default image URL or placeholder
+  }
 }
 </script>
 

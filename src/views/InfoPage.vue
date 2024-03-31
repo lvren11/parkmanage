@@ -77,7 +77,11 @@
           return data.value.filter(item => item.state === 1 || item.state === 2);
         });
         const attachImageUrl = (file) =>{
-          return URL.createObjectURL(file);
+          if (file) {
+            return URL.createObjectURL(file);
+          } else {
+            return null; // or any default image URL or placeholder
+          }
         }
       return {
         filteredData,
