@@ -18,7 +18,7 @@ const HttpManager = {
     //审批
     breakingaccess: ({cnum, user_id, state, id}) => put(`breaking/review/`, {cnum, user_id, state, id}),
     //添加违停记录
-    addbreaking: ({user_id,cnum,state,info,poster,date}) => post(`breaking/insert`,{user_id,cnum,state,info,poster,date}),
+    addbreaking: ({user_id,cnum,state,info,poster,date}) => post(`breaking/insert/`,{user_id,cnum,state,info,poster,date}),
     //车辆查询
     getAllCar: (page,page_size,cnum) => get(`car/get?page=${page}&page_size=${page_size}&cnum=${cnum}`),
     //个人车辆
