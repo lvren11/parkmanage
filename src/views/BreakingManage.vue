@@ -174,7 +174,6 @@
         data,
         filteredData,
         submitForm,
-        showimage,
         changeState,
         httpRequest,
         handleCurrentChange,
