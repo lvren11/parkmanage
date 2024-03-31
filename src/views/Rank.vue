@@ -71,7 +71,7 @@ const fetchData = async () => {
     console.error('Failed to fetch data:', error);
   }
 };
-
+fetchData();
 const openApprovalDialog = (row) => {
   selectedRow.value = row;
   approvalDialogVisible.value = true;
