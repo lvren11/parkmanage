@@ -30,51 +30,54 @@
         </el-form-item> -->
       </el-form>
     </div>
-    <el-row>
-      <!-- 租赁说明 -->
-      <el-col :span="4">
-        <el-card class="rental-description" header="租赁说明" style="height: 100%;">
-          <p style="font-size: 24px; color: red;margin-top: 20px;">租天：50元/天</p>
-          <p style="font-size: 24px; color: red;margin-top: 20px;">租月：300元/月</p>
-          <p style="font-size: 24px; color: red;margin-top: 20px;">租季：800元/季</p>
-          <p style="font-size: 24px; color: red;margin-top: 20px;">租年：2500元/年</p>
-        </el-card>
+    <el-row class="rental-description">
+      <el-col :span="24">
+        <div class="rental-description">
+          <el-card>
+            <p style="color: red;font-size: 18px;">租赁说明<span style="color: orange;margin-left: 20px;">租天：50元/天</span> <span style="color: orange;">租月：300元/月</span><span style="color: orange;">租季：800元/季</span> <span style="color: orange;">租年：2500元/年</span></p>
+          </el-card>
+        </div>
       </el-col>
-      <!-- 租赁选项 -->
-      <el-col :span="10">
-        <el-row>
-          <el-col :span="12">
-            <el-card class="rental-options" header="租赁选项" style="height: 100%;">
-              <el-card style="margin-top: 20px;">
-                <el-button type="text" @click="handleRentalOptionClick('y')" size="large" style="font-size: 24px;">1年 ￥{{ rentalPrice.year }}</el-button>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <el-card class="rental-description">
+          <el-row>
+            <el-col :span="6">
+              <el-card style="margin-top: 20px;margin-left: 10px;margin-right: 10px;">
+                <el-button type="text" @click="handleRentalOptionClick('y')" style="font-size: 18px;">1年 ￥{{ rentalPrice.year }}</el-button>
               </el-card>
-              <el-card style="margin-top: 20px;">
-                <el-button type="text" @click="handleRentalOptionClick('j')" size="large" style="font-size: 24px;">季 ￥{{ rentalPrice.quarter }}</el-button>
+            </el-col>
+            <el-col :span="6">
+              <el-card style="margin-top: 20px;margin-left: 10px;margin-right: 10px;">
+                <el-button type="text" @click="handleRentalOptionClick('j')" style="font-size: 18px;">季 ￥{{ rentalPrice.quarter }}</el-button>
               </el-card>
-            </el-card>
-          </el-col>
-          <el-col :span="12">
-            <el-card class="rental-options" header="租赁选项" style="height: 100%;">
-              <el-card style="margin-top: 20px;">
-                <el-button type="text" @click="handleRentalOptionClick('m')" size="large" style="font-size: 24px;">月 ￥{{ rentalPrice.month }}</el-button>
+            </el-col>
+            <el-col :span="6">
+              <el-card style="margin-top: 20px;margin-left: 10px;margin-right: 10px;">
+                <el-button type="text" @click="handleRentalOptionClick('m')" style="font-size: 18px;">月 ￥{{ rentalPrice.month }}</el-button>
               </el-card>
-              <el-card style="margin-top: 20px;">
-                <el-button type="text" @click="handleRentalOptionClick('d')" size="large" style="font-size: 24px;">天 ￥{{ rentalPrice.day }}</el-button>
+            </el-col>
+            <el-col :span="6">
+              <el-card style="margin-top: 20px;margin-left: 10px;margin-right: 10px;">
+                <el-button type="text" @click="handleRentalOptionClick('d')" style="font-size: 18px;">天 ￥{{ rentalPrice.day }}</el-button>
               </el-card>
-            </el-card>
-          </el-col>
-        </el-row>
+            </el-col>
+          </el-row>
+        </el-card>
       </el-col>
     </el-row>
     <!-- 支付方式 -->
-    <div class="payment-method">
-      <el-button type="primary" @click="payByAlipay">支付宝支付{{ paymentAmount }}</el-button>
-      <el-button type="success" @click="payByWechat">微信支付{{ paymentAmount }}</el-button>
+    <div class="rental-description">
+      <el-row>
+        <el-col :span="12" class="payment-button">
+          <el-button type="primary" @click="payByAlipay">支付宝支付{{ paymentAmount }}</el-button>
+        </el-col>
+        <el-col :span="12" class="payment-button">
+          <el-button type="success" @click="payByWechat">微信支付{{ paymentAmount }}</el-button>
+        </el-col>
+      </el-row>
     </div>
-      <!-- 租赁按钮 -->
-    <!-- <div class="final">
-      <el-button type="primary" @click="rentParking">租赁</el-button>
-    </div> -->
   </div>
 </template>
 
@@ -224,23 +227,35 @@ export default {
 .parking-rental {
   margin: 20px;
 }
-
+.form-item{
+  margin-top: 20px;
+}
 .user-info {
   float: right;
+  margin-right: 20px;
+  font-size: 14px;
 }
-.form-item {
-  margin-top:20px;
+.user-id {
+  font-weight: bold;
 }
 .rental-form {
   margin-bottom: 20px;
 }
-.rental-options{
-  margin-left: 20px;
+
+.rental-description {
+  margin-bottom: 20px;
+  width: 700px;
 }
+
+.rental-options {
+  margin-bottom: 20px;
+}
+
 .payment-method {
   margin-top: 20px;
 }
-.final {
-  margin-top: 20px;
+
+.payment-button {
+  text-align: center;
 }
 </style>
