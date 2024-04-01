@@ -234,21 +234,23 @@ export default {
       // 打开添加停车位信息弹窗
       this.addDialogVisible = true;
     },
-    submitAddForm() {
+    async submitAddForm() {
       // 提交添加停车位信息表单
       console.log('提交添加停车位信息表单:', this.addForm);
       // 关闭弹窗
-      const response = HttpManager.addparkinglot(this.addForm);
+      const response = await HttpManager.addparkinglot(this.addForm);
         // this.vehicleData = response.results;
-      this.$message({
-          message: response.message
-      });
       this.addDialogVisible = false;
       // 调用接口或其他操作进行添加操作
+      if(response.code === 400){
+        ElMessage.error(`${response.message}`);
+      }else{
+        ElMessage.success(`${response.message}`);
+      }
       // 添加完成后，刷新数据列表
       this.searchForm.pnum = '';
       this.searchForm.cnum = '';
-      this.fetchData();
+      await this.fetchData();
     },
     handleEdit(row) {
       // 打开修改停车位信息弹窗，并将对应行的信息赋值给编辑表单
@@ -266,16 +268,18 @@ export default {
         // 这里添加提交修改停车位信息的逻辑
         console.log('提交修改停车位信息表单:', this.editForm);
         // 关闭弹窗
-        const response = HttpManager.updateparkinglot(this.editForm);
+        const response = await HttpManager.updateparkinglot(this.editForm);
         // this.vehicleData = response.results;
-        this.$message({
-            message: response.message
-        });
         this.editDialogVisible = false;
+        if(response.code === 400){
+          ElMessage.error(`${response.message}`);
+        }else{
+          ElMessage.success(`${response.message}`);
+        }
         this.searchForm.pnum = '';
-      this.searchForm.cnum = '';
+        this.searchForm.cnum = '';
         // 调用接口或其他操作进行修改操作
-        this.fetchData();
+        await this.fetchData();
       } catch (error) {
         console.error('Failed to submit edit form:', error);
       }
@@ -297,13 +301,13 @@ export default {
         });
       });
     },
-    deleteRow(row) {
+    async deleteRow(row) {
       // 在这里实现删除操作，可以调用 API 或者修改本地数据
       console.log('删除行:', row);
-      HttpManager.deleteparkinglot(row.id);
+      await HttpManager.deleteparkinglot(row.id);
       this.searchForm.pnum = '';
       this.searchForm.cnum = '';
-      this.fetchData();
+      await this.fetchData();
     },
   },
   mounted() {
