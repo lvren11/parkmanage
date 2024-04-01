@@ -51,6 +51,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/regist',
     component: () => import('@/views/Regist.vue'),
     meta: { title: 'regist' }
+  },
+  {
+    path: '/forpwd',
+    component: () => import('@/views/Forpwd.vue'),
+    meta: { title: 'forpwd' }
   }
 ]
 

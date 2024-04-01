@@ -44,7 +44,7 @@
           <el-input class="inputbreaking" v-model="violationForm.cnum" placeholder="请输入违停车牌号"></el-input>
         </el-form-item>
         <el-form-item label="违停信息">
-          <el-input class="inputbreaking" v-model="violationForm.Info" placeholder="请输入违停信息"></el-input>
+          <el-input class="inputbreaking" v-model="violationForm.info" placeholder="请输入违停信息"></el-input>
         </el-form-item>
         <!-- 提交按钮 -->
         <el-form-item>
@@ -70,7 +70,11 @@
                 <img :src="attachimageurl(scope.row.poster)" style="width: 80px" />
               </template>
           </el-table-column>
-          <el-table-column prop="date" label="举报日期"></el-table-column>
+          <el-table-column prop="date" label="举报日期">
+            <template v-slot="scope">
+              <div>{{ dataformat(scope.row.date) }}</div>
+            </template>
+          </el-table-column>
         </el-table>
         <el-pagination
           class="pagination"
@@ -90,7 +94,7 @@
   import { useStore } from 'vuex';
   import { computed, ref } from 'vue'; // 导入 ref 和 computed
   import { HttpManager } from '@/api/index';
-  import { changeState} from "@/utils";
+  import { changeState, dataformat} from "@/utils";
   import { ElMessage} from 'element-plus';
 
   import axios from "axios";
@@ -180,6 +184,7 @@
         filteredData,
         submitForm,
         changeState,
+        dataformat,
         httpRequest,
         handleCurrentChange,
         attachimageurl:HttpManager.attachImageUrl,

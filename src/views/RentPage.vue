@@ -130,11 +130,6 @@ export default {
       // 注意要根据选择的租赁时间计算租金，可以使用 rentalType 和 startDate、endDate 来计算租金
       // 处理完后可以刷新可用停车位列表
       // 以下是示例代码
-      if (!this.rentalForm.pnum || !this.availablCar.cnum) {
-        // 显示错误消息提示用户选择停车位和车辆
-        this.$message.error('请选择停车位和车辆');
-        return; // 中止方法执行
-      }
       console.log('用户id', this.id);
       console.log('租赁停车位id：', this.findIdByPnum(this.availableParking,this.rentalForm.pnum));
       console.log('租赁停车位：', this.rentalForm.pnum);
@@ -143,7 +138,17 @@ export default {
       console.log('开始日期：', this.startDate);
       // console.log('结束日期：', this.endDate);
       console.log('支付金额：', this.paymentAmount);
+      if (!this.rentalForm.pnum || !this.availablCar.cnum) {
+        // 显示错误消息提示用户选择停车位和车辆
+        this.$message.error('请选择停车位和车辆');
+        return; // 中止方法执行
+      }
       const res = await HttpManager.Buyparkingspot(this.findIdByPnum(this.availableParking,this.rentalForm.pnum),this.renttype,this.id, this.availablCar.cnum, this.startDate);
+      if(res.code === 200){
+        ElMessage.success(`成功支付金额：${this.paymentAmount}元`);
+      }else{
+        ElMessage.error(`${res.message}`);
+      }
       // ElMessage.success(`成功租赁：${res.message}`);
     },
     findIdByPnum(availableParking, targetPnum){
@@ -216,11 +221,10 @@ export default {
       console.log('支付宝支付', this.paymentAmount);
       // 弹出成功支付提示
       await this.rentParking();
-      ElMessage.success(`成功支付金额：${this.paymentAmount}元`);
     } catch (error) {
       console.error('支付处理出错:', error);
       // 弹出错误提示
-      ElMessage.error('支付失败，请稍后重试');
+      // ElMessage.error('支付失败，请稍后重试');
     } finally {
       // 隐藏加载状态
       loadingInstance.close();
@@ -239,11 +243,9 @@ export default {
       console.log('微信支付', this.paymentAmount);
       // 弹出成功支付提示
       await this.rentParking();
-      ElMessage.success(`成功支付金额：${this.paymentAmount}元`);
     } catch (error) {
       console.error('支付处理出错:', error);
       // 弹出错误提示
-      ElMessage.error('支付失败，请稍后重试');
     } finally {
       // 隐藏加载状态
       loadingInstance.close();

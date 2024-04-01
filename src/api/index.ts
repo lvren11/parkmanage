@@ -66,6 +66,8 @@ const HttpManager = {
         integ,
         pwd
     }),
+    //忘记密码
+    forgetpwd:({uid,tel,pwd}) => post(`user/forgetpwd/`, {uid,tel,pwd}),
     searchVehicleInfo: (cnum, tel, page, page_size) => get(`car/get?page=${page}&page_size=${page_size}&cnum=${cnum}&tel=${tel}`),
 
 }

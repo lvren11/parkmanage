@@ -31,7 +31,11 @@
                 <img :src="attachImageUrl(scope.row.poster)" style="width: 80px" />
               </template>
           </el-table-column>
-          <el-table-column prop="date" label="举报日期"></el-table-column>
+          <el-table-column prop="date" label="举报日期">
+            <template v-slot="scope">
+              <div>{{ dataformat(scope.row.date) }}</div>
+            </template>
+          </el-table-column>
         </el-table>
         <el-pagination
           class="pagination"
@@ -50,7 +54,7 @@
   <script lang="ts">
   import { defineComponent, ref, computed } from "vue";
   import { HttpManager } from "@/api";
-  import { changeState} from "@/utils";
+  import { changeState, dataformat} from "@/utils";
   
   export default defineComponent({
     setup() {
@@ -81,6 +85,7 @@
         page,
         pages_size,
         changeState,
+        dataformat,
         attachImageUrl:HttpManager.attachImageUrl,
         handleCurrentChange
       };

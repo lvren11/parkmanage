@@ -14,5 +14,6 @@ export const enum RouterName {
   breaking = '/breaking',
   SignIn = "/",
   SignOut = "0",
-  rank = '/rank'
+  rank = '/rank',
+  forpwd = '/forpwd'
 }

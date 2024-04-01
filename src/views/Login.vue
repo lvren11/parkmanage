@@ -13,7 +13,7 @@
           <el-button class="login-btn" type="primary" @click="submitForm">登录</el-button>
         </el-form-item>
         <div>
-          <a style="float: left" >忘记密码</a>
+          <a style="float: left" @click="forget">忘记密码</a>
           <a style="float: right" @click="regist">注册账户</a>
         </div>
       </el-form>
@@ -55,12 +55,16 @@ export default defineComponent({
     function regist () {
       routerManager(RouterName.Regist, { path: RouterName.Regist });
     }
+    function forget(){
+      routerManager(RouterName.forpwd, { path: RouterName.forpwd });
+    }
     return {
       nusicName,
       ruleForm,
       rules,
       submitForm,
-      regist
+      regist,
+      forget
     };
   },
 });

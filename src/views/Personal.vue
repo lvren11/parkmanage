@@ -77,7 +77,11 @@
                 <img :src="attachImageUrl(scope.row.poster)" style="width: 80px" />
               </template>
           </el-table-column>
-          <el-table-column prop="date" label="举报日期"></el-table-column>
+          <el-table-column prop="date" label="举报日期">
+            <template v-slot="scope">
+              <div>{{ dataformat(scope.row.date) }}</div>
+            </template>
+          </el-table-column>
           <el-table-column align="center">
             <template v-slot:header>
               <el-button type="text" @click="addReport">添加</el-button>
@@ -155,7 +159,7 @@
 import { HttpManager } from "@/api";
 import { defineComponent, getCurrentInstance, computed, ref,reactive } from "vue";
 import { useStore } from 'vuex';
-import { changeState} from "@/utils";
+import { changeState, dataformat} from "@/utils";
 import { RouterName } from "@/enums";
 import mixin from "@/mixins/mixin";
 import { ElMessageBox } from "element-plus";
@@ -372,6 +376,7 @@ export default defineComponent({
       handlevehicleDataChange,
       attachImageUrl: HttpManager.attachImageUrl,
       changeState,
+      dataformat,
       submit,
       toggleEdit,
       changePassword,

@@ -4,16 +4,16 @@
       <div class="login">
         <el-form :model="ruleForm" :rules="rules">
           <el-form-item prop="username">
-            <el-input v-model="ruleForm.username" placeholder="请输入手机号"></el-input>
+            <el-input v-model="ruleForm.username" placeholder="请输入用户名"></el-input>
+          </el-form-item>
+          <el-form-item prop="telephone">
+            <el-input v-model="ruleForm.telephone" placeholder="请输入手机号"></el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input type="password" placeholder="请输入密码（大于等于8位）" v-model="ruleForm.password"></el-input>
-          </el-form-item>
-          <el-form-item prop="password2">
-            <el-input type="password" placeholder="请再次输入密码" v-model="ruleForm.password2"></el-input>
+            <el-input type="password" placeholder="请输入新密码" v-model="ruleForm.password"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button class="login-btn" type="primary" @click="submitForm">立即注册</el-button>
+            <el-button class="login-btn" type="primary" @click="submitForm">修改密码</el-button>
           </el-form-item>
           <div>
             <a style="float: right" @click="regist">使用已有账户登录</a>
@@ -38,23 +38,24 @@
       const ruleForm = reactive({
         username: "",
         password: "",
-        password2:""
+        telephone:""
       });
       const rules = reactive({
-        username: [{ required: true, message: "请输入手机号", trigger: "blur" },{ pattern: /^1[3-9]\d{9}$/, message: '手机号格式不正确' }],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" },{ validator: handlePasswordLevel }],
-        password2: [{ required: true, message: "请输入密码", trigger: "blur" },{ validator: handlePasswordCheck }],
+        telephone: [{ required: true, message: "请输入手机号", trigger: "blur" },{ pattern: /^1[3-9]\d{9}$/, message: '手机号格式不正确' }],
+        password: [{ required: true, message: "请输入新密码", trigger: "blur" },{ validator: handlePasswordLevel }],
+        username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
       });
       async function submitForm() {
-        let tel = ruleForm.username;
+        let uid = ruleForm.username;
+        let tel = ruleForm.telephone;
         let pwd = ruleForm.password;
-        const result = (await HttpManager.Register({tel,pwd})) as ResponseBody;
+        const result = (await HttpManager.forgetpwd({uid,tel,pwd})) as ResponseBody;
         if (result.code === 200) {
-            proxy.$store.commit("setUser", result.data);
-            ElMessage.error(`注册成功`);
-            routerManager(RouterName.Info, { path: RouterName.Info });
+            // proxy.$store.commit("setUser", result.data);
+            ElMessage.success(`修改密码成功`);
+            routerManager(RouterName.SignIn, { path: RouterName.SignIn });
         }else{
-          ElMessage.error(`注册失败`);
+            ElMessage.error(`修改密码失败`);
         }
       }
       function regist () {
@@ -88,17 +89,6 @@
         } else {
             callback(new Error('密码是包含大小写字母，数字，特殊字符其中两样'));
         }
-    }
-
-    function handlePasswordCheck (rule, value, callback) {
-        let password = ruleForm.password;
-        if (value === undefined) {
-            callback(new Error('请输入密码'))
-        }
-        if (value && password && value.trim() !== password.trim()) {
-            callback(new Error('两次密码不一致'))
-        }
-        callback()
     }
 
       return {

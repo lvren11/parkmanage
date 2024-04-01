@@ -61,3 +61,23 @@ export function getStatusText(code) {
   return code === 0 ? '空闲' : '租赁中';
 }
 
+export function dataformat(dateString){
+  const dateTime = new Date(dateString);
+
+  const year = dateTime.getFullYear();
+  const month = ('0' + (dateTime.getMonth() + 1)).slice(-2); // 月份从 0 开始，所以要加 1
+  const day = ('0' + dateTime.getDate()).slice(-2);
+  const hours = ('0' + dateTime.getHours()).slice(-2);
+  const minutes = ('0' + dateTime.getMinutes()).slice(-2);
+  const seconds = ('0' + dateTime.getSeconds()).slice(-2);
+  const milliseconds = ('00' + dateTime.getMilliseconds()).slice(-3);
+  const timezoneOffset = dateTime.getTimezoneOffset();
+  const timezoneOffsetSign = timezoneOffset > 0 ? '-' : '+';
+  const timezoneOffsetHours = ('0' + Math.abs(Math.floor(timezoneOffset / 60))).slice(-2);
+  const timezoneOffsetMinutes = ('0' + Math.abs(timezoneOffset % 60)).slice(-2);
+
+  const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}${timezoneOffsetSign}${timezoneOffsetHours}:${timezoneOffsetMinutes}`;
+
+  return formattedDateTime;
+
+}
