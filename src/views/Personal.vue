@@ -300,10 +300,9 @@ export default defineComponent({
     }
     async function getuser(uiddata){
       const response = (await HttpManager.getUser(uiddata)) as ResponseBody;
-      user.id = response.results.id;
       user.uid = response.results.uid;
       user.tel = response.results.tel;
-      user.cnum = response.results.cnum;
+      user.role = response.results.role;
       user.pnum = response.results.pnum;
       user.addr = response.results.addr;
       user.integ = response.results.integ;
