@@ -76,7 +76,7 @@ export function dataformat(dateString){
   const timezoneOffsetHours = ('0' + Math.abs(Math.floor(timezoneOffset / 60))).slice(-2);
   const timezoneOffsetMinutes = ('0' + Math.abs(timezoneOffset % 60)).slice(-2);
 
-  const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}${timezoneOffsetSign}${timezoneOffsetHours}:${timezoneOffsetMinutes}`;
+  const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
   return formattedDateTime;
 

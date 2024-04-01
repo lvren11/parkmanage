@@ -18,7 +18,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="车辆选择">
-          <el-select v-model="rentalForm.cnum" placeholder="请选择车辆" :rules="[{ required: true, message: '请选择车辆', trigger: 'change' }]">
+          <el-select v-model="availablCar.cnum" placeholder="请选择车辆" :rules="[{ required: true, message: '请选择车辆', trigger: 'change' }]">
             <el-option
               v-for="item in availablCar"
               :key="item.id"
