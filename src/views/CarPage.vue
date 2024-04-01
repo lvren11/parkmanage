@@ -18,7 +18,7 @@
         <el-form-item class="form-item">
           <el-button type="primary" @click="search">查询</el-button>
         </el-form-item>
-        <el-form-item class="form-item">
+        <el-form-item class="form-item" v-if="role === 0">
           <el-button type="primary" @click="addcar">添加</el-button>
         </el-form-item>
       </el-form>
@@ -93,7 +93,7 @@ import { HttpManager } from '@/api/index';
 export default {
   setup() {
     const store = useStore();
-
+    
     const currentPage = ref(1);
     const pageSize = ref(10);
     const userId = ref(store.state.user.uid);
