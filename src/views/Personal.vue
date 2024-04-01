@@ -164,6 +164,7 @@ import { RouterName } from "@/enums";
 import mixin from "@/mixins/mixin";
 import { ElMessageBox } from "element-plus";
 import { ElMessage} from 'element-plus';
+
 export default defineComponent({
   setup() {
     const { proxy } = getCurrentInstance();
@@ -299,13 +300,16 @@ export default defineComponent({
       filteredData.value = response.results;
     }
     async function getuser(uiddata){
+      if(uiddata===undefined){
+        routerManager(RouterName.SignIn, { path: RouterName.SignIn });
+      }
       const response = (await HttpManager.getUser(uiddata)) as ResponseBody;
-      user.uid = response.results.uid;
-      user.tel = response.results.tel;
-      user.role = response.results.role;
-      user.addr = response.results.addr;
-      user.integ = response.results.integ;
-      user.pwd = response.results.pwd;
+      user.uid = response.results[0].uid;
+      user.tel = response.results[0].tel;
+      user.role = response.results[0].role;
+      user.addr = response.results[0].addr;
+      user.integ = response.results[0].integ;
+      user.pwd = response.results[0].pwd;
     }
     function confirmDeleteVehicle(row) {
       ElMessageBox.confirm("确定要删除这条车辆信息吗？", "提示", {
