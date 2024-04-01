@@ -18,7 +18,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="车辆选择">
-          <el-select v-model="availablCar.cnum" placeholder="请选择车辆" :rules="[{ required: true, message: '请选择车辆', trigger: 'change' }]">
+          <el-select v-model="rentalForm.cnum" placeholder="请选择车辆" :rules="[{ required: true, message: '请选择车辆', trigger: 'change' }]">
             <el-option
               v-for="item in availablCar"
               :key="item.id"
@@ -106,14 +106,12 @@ export default {
       rentalForm: {
         id:'',
         pnum: '', // 停车位号
-      },
-      availablCar:{
-        id:'',
         cnum:''
       },
       startDate: '', // 开始日期
       endDate: '', // 结束日期
       availableParking: [], // 可用停车位列表
+      availablCar:[],
       rentalPrice: {
         year: 2500,
         quarter: 800,
@@ -133,12 +131,12 @@ export default {
       console.log('用户id', this.id);
       console.log('租赁停车位id：', this.findIdByPnum(this.availableParking,this.rentalForm.pnum));
       console.log('租赁停车位：', this.rentalForm.pnum);
-      console.log('车辆', this.availablCar.cnum);
+      console.log('车辆', this.rentalForm.cnum);
       console.log('租赁类别：', this.renttype);
       console.log('开始日期：', this.startDate);
       // console.log('结束日期：', this.endDate);
       console.log('支付金额：', this.paymentAmount);
-      if (!this.rentalForm.pnum || !this.availablCar.cnum) {
+      if (!this.rentalForm.pnum || !this.rentalForm.cnum) {
         // 显示错误消息提示用户选择停车位和车辆
         this.$message.error('请选择停车位和车辆');
         return; // 中止方法执行
@@ -148,7 +146,7 @@ export default {
         this.$message.error('请选择租赁选项');
         return;
       }
-      const res = await HttpManager.Buyparkingspot(this.findIdByPnum(this.availableParking,this.rentalForm.pnum),this.renttype,this.id, this.availablCar.cnum, this.startDate);
+      const res = await HttpManager.Buyparkingspot(this.findIdByPnum(this.availableParking,this.rentalForm.pnum),this.renttype,this.id, this.rentalForm.cnum, this.startDate);
       if(res.code === 200){
         ElMessage.success(`成功支付金额：${this.paymentAmount}元`);
       }else{
