@@ -303,7 +303,6 @@ export default defineComponent({
       user.uid = response.results.uid;
       user.tel = response.results.tel;
       user.role = response.results.role;
-      user.pnum = response.results.pnum;
       user.addr = response.results.addr;
       user.integ = response.results.integ;
       user.pwd = response.results.pwd;
