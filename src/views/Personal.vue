@@ -217,6 +217,7 @@ export default defineComponent({
     //       },
     //       // Add more data entries here
     //     ]);
+    getuser(user.uid);
     getVehicledata(user.id);
     getcardata(user.id);
 
@@ -297,7 +298,17 @@ export default defineComponent({
       const response = (await HttpManager.getMyBreaking(page.value,pages_size.value,uiddata)) as ResponseBody;
       filteredData.value = response.results;
     }
-
+    async function getuser(uiddata){
+      const response = (await HttpManager.getUser(uiddata)) as ResponseBody;
+      user.id = response.results.id;
+      user.uid = response.results.uid;
+      user.tel = response.results.tel;
+      user.cnum = response.results.cnum;
+      user.pnum = response.results.pnum;
+      user.addr = response.results.addr;
+      user.integ = response.results.integ;
+      user.pwd = response.results.pwd;
+    }
     function confirmDeleteVehicle(row) {
       ElMessageBox.confirm("确定要删除这条车辆信息吗？", "提示", {
         confirmButtonText: "确定",

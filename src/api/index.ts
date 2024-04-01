@@ -8,8 +8,10 @@ const HttpManager = {
     getLoginStatus: ({uid, pwd}) => post(`user/login/`, {uid, pwd}),
     //注册
     Register: ({tel,pwd}) => post(`user/register/`, {tel, pwd}),
-    //多个查询
+    //用户
     getStateBreaking: (page,page_size,state,state2) => get(`breaking/get?page=${page}&page_size=${page_size}&state=${state}&state=${state2}`),
+    //多个查询
+    getUser: (uid) => get(`user/get?uid=${uid}`),
     //获得违停记录
     getAllBreaking: (page,page_size) => get(`breaking/get?page=${page}&page_size=${page_size}`),
     getAdminBreaking: (page,page_size,state,state2,state3,state4)=> get(`breaking/get?page=${page}&page_size=${page_size}&state=${state}&state=${state2}&state=${state3}&state=${state4}`),
