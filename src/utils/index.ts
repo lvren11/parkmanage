@@ -38,7 +38,7 @@ export function getTenantStatus(code: string): string {
     case 'y':
       return '年租租户';
     default:
-      return '未知'; // 或者抛出异常
+      return ''; // 或者抛出异常
   }
 }
 

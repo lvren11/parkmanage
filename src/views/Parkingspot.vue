@@ -223,7 +223,7 @@ export default {
       this.fetchData();
     },
     handleClick(row) {
-      if (row.pst === 0) {
+      if (row.pst === 0 && !this.isAdmin) {
         this.$router.push({ path: RouterName.ust, query: { pnum: row.pnum }});
       }
     },
