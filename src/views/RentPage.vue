@@ -143,6 +143,11 @@ export default {
         this.$message.error('请选择停车位和车辆');
         return; // 中止方法执行
       }
+      if (!['y', 'j', 'm', 'd'].includes(this.renttype)) {
+        // 如果租赁类别不在预期的类型之内，显示错误消息提示用户选择正确的选项
+        this.$message.error('请选择租赁选项');
+        return;
+      }
       const res = await HttpManager.Buyparkingspot(this.findIdByPnum(this.availableParking,this.rentalForm.pnum),this.renttype,this.id, this.availablCar.cnum, this.startDate);
       if(res.code === 200){
         ElMessage.success(`成功支付金额：${this.paymentAmount}元`);
